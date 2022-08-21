@@ -1,183 +1,51 @@
 bracket_terminal::add_wasm_support!();
-use bracket_random::prelude::*;
+use bevy_ecs::prelude::*;
 use bracket_terminal::prelude::*;
+use components::{position::Position, render::Render};
+use state::State;
+use systems::entity_render::entity_render;
 
-// We'll allow map tiles to be either a wall or a floor. We're deriving PartialEq so we don't
-// have to match on it every time. We'll make it a copy type because it's really just an int.
-#[derive(PartialEq, Copy, Clone)]
-enum TileType {
-    Wall,
-    Floor,
-}
+mod components;
+mod state;
+mod systems;
 
-// We're extending State to include a minimal map and player coordinates.
-struct State {
-    map: Vec<TileType>,
-    visited: Vec<bool>,
-    player_position: usize,
-}
-
-// We're storing all the tiles in one big array, so we need a way to map an X,Y coordinate to
-// a tile. Each row is stored sequentially (so 0..80, 81..160, etc.). This takes an x/y and returns
-// the array index.
-pub fn xy_idx(x: i32, y: i32) -> usize {
-    (y as usize * 80) + x as usize
-}
-
-// It's a great idea to have a reverse mapping for these coordinates. This is as simple as
-// index % 80 (mod 80), and index / 80
-pub fn idx_xy(idx: usize) -> (i32, i32) {
-    (idx as i32 % 80, idx as i32 / 80)
-}
-
-// Since we have some content, we should also include a map builder. A 'new'
-// function is a common Rust way to do this.
-impl State {
-    pub fn new() -> State {
-        let mut state = State {
-            map: vec![TileType::Floor; 80 * 50],
-            player_position: xy_idx(40, 25),
-            visited: vec![false; 80 * 50],
-        };
-
-        // Make the boundaries walls
-        for x in 0..80 {
-            state.map[xy_idx(x, 0)] = TileType::Wall;
-            state.map[xy_idx(x, 49)] = TileType::Wall;
-        }
-        for y in 0..50 {
-            state.map[xy_idx(0, y)] = TileType::Wall;
-            state.map[xy_idx(79, y)] = TileType::Wall;
-        }
-
-        // Now we'll randomly splat a bunch of walls. It won't be pretty, but it's a decent illustration.
-        // First, obtain the thread-local RNG:
-        let mut rng = RandomNumberGenerator::new();
-
-        for _ in 0..400 {
-            // rand provides a gen_range function to get numbers in a range.
-            let x = rng.roll_dice(1, 80) - 1;
-            let y = rng.roll_dice(1, 50) - 1;
-            let idx = xy_idx(x, y);
-            // We don't want to add a wall on top of the player
-            if state.player_position != idx {
-                state.map[idx] = TileType::Wall;
-            }
-        }
-
-        // We'll return the state with the short-hand
-        state
-    }
-
-    // Handle player movement. Delta X and Y are the relative move
-    // requested by the player. We calculate the new coordinates,
-    // and if it is a floor - move the player there.
-    pub fn move_player(&mut self, delta_x: i32, delta_y: i32) {
-        let current_position = idx_xy(self.player_position);
-        let new_position = (current_position.0 + delta_x, current_position.1 + delta_y);
-        let new_idx = xy_idx(new_position.0, new_position.1);
-        if self.map[new_idx] == TileType::Floor {
-            self.player_position = new_idx;
-            self.visited[new_idx] = true;
-        }
-    }
-}
-
-// Implement the game loop
-impl GameState for State {
-    fn tick(&mut self, ctx: &mut BTerm) {
-        // New: handle keyboard inputs.
-        match ctx.key {
-            None => {} // Nothing happened
-            Some(key) => {
-                // A key is pressed or held
-                match key {
-                    // We're matching a key code from GLFW (the GL library underlying BTerm),
-                    // and applying movement via the move_player function.
-
-                    // Numpad
-                    VirtualKeyCode::Numpad8 => self.move_player(0, -1),
-                    VirtualKeyCode::Numpad4 => self.move_player(-1, 0),
-                    VirtualKeyCode::Numpad6 => self.move_player(1, 0),
-                    VirtualKeyCode::Numpad2 => self.move_player(0, 1),
-
-                    // Numpad diagonals
-                    VirtualKeyCode::Numpad7 => self.move_player(-1, -1),
-                    VirtualKeyCode::Numpad9 => self.move_player(1, -1),
-                    VirtualKeyCode::Numpad1 => self.move_player(-1, 1),
-                    VirtualKeyCode::Numpad3 => self.move_player(1, 1),
-
-                    // Cursors
-                    VirtualKeyCode::Up => self.move_player(0, -1),
-                    VirtualKeyCode::Down => self.move_player(0, 1),
-                    VirtualKeyCode::Left => self.move_player(-1, 0),
-                    VirtualKeyCode::Right => self.move_player(1, 0),
-
-                    VirtualKeyCode::Escape => {
-                        ctx.quit();
-                    }
-
-                    _ => {} // Ignore all the other possibilities
-                }
-            }
-        }
-
-        // Clear the screen
-        ctx.cls();
-
-        // Iterate the map array, incrementing coordinates as we go.
-        let mut y = 0;
-        let mut x = 0;
-        for (idx, tile) in self.map.iter().enumerate() {
-            // Render a tile depending upon the tile type
-            match tile {
-                TileType::Floor => {
-                    ctx.print_color(
-                        x,
-                        y,
-                        RGB::from_f32(0.5, 0.5, 0.5),
-                        RGB::from_f32(0., 0., 0.),
-                        ".",
-                    );
-                }
-                TileType::Wall => {
-                    ctx.print_color(
-                        x,
-                        y,
-                        RGB::from_f32(0.0, 1.0, 0.0),
-                        RGB::from_f32(0., 0., 0.),
-                        "#",
-                    );
-                }
-            }
-            if self.visited[idx] {
-                ctx.set_bg(idx as i32 % 80, idx as i32 / 80, RGB::named(NAVY));
-            }
-
-            // Move the coordinates
-            x += 1;
-            if x > 79 {
-                x = 0;
-                y += 1;
-            }
-        }
-
-        // Render the player @ symbol
-        let ppos = idx_xy(self.player_position);
-        ctx.print_color(
-            ppos.0,
-            ppos.1,
-            RGB::from_f32(1.0, 1.0, 0.0),
-            RGB::from_f32(0., 0., 0.),
-            "@",
-        );
-    }
-}
+const DISPLAY_WIDTH: u32 = 80;
+const DISPLAY_HEIGHT: u32 = 50;
+const MAP_WIDTH: u32 = 80;
+const MAP_HEIGHT: u32 = 80;
 
 fn main() -> BError {
-    let context = BTermBuilder::simple80x50()
-        .with_title("Bracket Terminal Example - Walking")
+    let context = BTermBuilder::new()
+        .with_title("Dan Rogue World")
+        .with_fps_cap(30.0)
+        .with_dimensions(DISPLAY_WIDTH, DISPLAY_HEIGHT)
+        // .with_tile_dimensions(32, 32)
+        // .with_resource_path("resources/")
+        // .with_font("dungeonfont.png", 32, 32)
+        .with_font("terminal8x8.png", 8, 8)
+        // .with_simple_console(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
+        // .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
+        .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "terminal8x8.png")
+        // .with_simple_console_no_bg(MAP_WIDTH * 2, MAP_HEIGHT * 2, "terminal8x8.png")
         .build()?;
-    let gs = State::new();
+
+    // Create a new empty World to hold our Entities and Components
+    let mut world = World::new();
+
+    // Spawn an entity with Position and Velocity components
+    world
+        .spawn()
+        .insert(Position { x: 2, y: 2 })
+        .insert(Render {
+            colour: ColorPair::new(RED, BLACK),
+            glyph: to_cp437('@'),
+        });
+    let mut schedule = Schedule::default();
+
+    // Add a Stage to our schedule. Each Stage in a schedule runs all of its systems
+    // before moving on to the next Stage
+    schedule.add_stage("render", SystemStage::parallel().with_system(entity_render));
+
+    let gs: State = State::new(world, schedule);
     main_loop(context, gs)
 }
