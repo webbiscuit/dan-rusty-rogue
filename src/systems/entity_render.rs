@@ -1,7 +1,4 @@
-use bevy_ecs::{
-    query::{Changed, With},
-    system::Query,
-};
+use bevy_ecs::{query::Changed, system::Query};
 use bracket_terminal::prelude::{DrawBatch, Point};
 
 use crate::components::{position::Position, render::Render};
@@ -9,10 +6,6 @@ use crate::components::{position::Position, render::Render};
 pub fn entity_render(query: Query<(&Position, &Render, Changed<Position>)>) {
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(0);
-
-    // for (position, render) in &query {
-    //     println!("{:?} {:?}", position, render);
-    // }
 
     query
         .iter()

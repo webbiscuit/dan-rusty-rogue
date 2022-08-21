@@ -2,10 +2,12 @@ bracket_terminal::add_wasm_support!();
 use bevy_ecs::prelude::*;
 use bracket_terminal::prelude::*;
 use components::{position::Position, render::Render};
+use resources::user_command::{self, UserCommand};
 use state::State;
-use systems::entity_render::entity_render;
+use systems::{entity_render::entity_render, handle_input::handle_input};
 
 mod components;
+mod resources;
 mod state;
 mod systems;
 
@@ -32,6 +34,8 @@ fn main() -> BError {
     // Create a new empty World to hold our Entities and Components
     let mut world = World::new();
 
+    world.insert_resource(UserCommand::new());
+
     // Spawn an entity with Position and Velocity components
     world
         .spawn()
@@ -44,6 +48,7 @@ fn main() -> BError {
 
     // Add a Stage to our schedule. Each Stage in a schedule runs all of its systems
     // before moving on to the next Stage
+    schedule.add_stage("input", SystemStage::parallel().with_system(handle_input));
     schedule.add_stage("render", SystemStage::parallel().with_system(entity_render));
 
     let gs: State = State::new(world, schedule);
