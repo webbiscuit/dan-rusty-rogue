@@ -1,4 +1,6 @@
-# Dan's Rogue Thing
+# Dan's Roguelike Thing
+
+A roguelike game. Mostly to see how Rust and WASM works.
 
 ## Build for the web
 
