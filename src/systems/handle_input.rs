@@ -22,7 +22,7 @@ pub fn handle_input(resource: Res<UserCommand>, mut query: Query<&mut Position, 
 
         println!("{:?}", delta);
 
-        for (mut position) in &mut query {
+        for mut position in &mut query {
             println!("{:?}", position);
 
             position.x += delta.x;

@@ -2,7 +2,7 @@ bracket_terminal::add_wasm_support!();
 use bevy_ecs::prelude::*;
 use bracket_terminal::prelude::*;
 use components::{position::Position, render::Render, player::Player};
-use resources::user_command::{self, UserCommand};
+use resources::user_command::{UserCommand};
 use state::State;
 use systems::{entity_render::entity_render, handle_input::handle_input};
 

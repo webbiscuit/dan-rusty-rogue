@@ -4,7 +4,7 @@ use bevy_ecs::{
 };
 use bracket_terminal::prelude::{render_draw_buffer, BTerm, GameState};
 
-use crate::resources::user_command::{self, Command, UserCommand};
+use crate::resources::user_command::{Command, UserCommand};
 
 pub struct State {
     world: World,
@@ -30,7 +30,7 @@ impl GameState for State {
         ctx.cls();
 
         let mut user_command = self.world.get_resource_mut::<UserCommand>().unwrap();
-        user_command.handle_keypress(&ctx.key);
+        user_command.handle_keypress(ctx.key);
 
         if let Some(command) = user_command.current_command() {
             if *command == Command::Quit {

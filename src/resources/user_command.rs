@@ -20,7 +20,7 @@ impl UserCommand {
         }
     }
 
-    pub fn handle_keypress(&mut self, key: &Option<VirtualKeyCode>) {
+    pub fn handle_keypress(&mut self, key: Option<VirtualKeyCode>) {
         if let Some(key) = key {
             match key {
                 VirtualKeyCode::Up | VirtualKeyCode::W => {
