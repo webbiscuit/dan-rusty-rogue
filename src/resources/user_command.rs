@@ -1,6 +1,6 @@
 use bracket_terminal::prelude::VirtualKeyCode;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum Command {
     MoveUp,
     MoveDown,

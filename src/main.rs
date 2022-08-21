@@ -1,7 +1,7 @@
 bracket_terminal::add_wasm_support!();
 use bevy_ecs::prelude::*;
 use bracket_terminal::prelude::*;
-use components::{position::Position, render::Render};
+use components::{position::Position, render::Render, player::Player};
 use resources::user_command::{self, UserCommand};
 use state::State;
 use systems::{entity_render::entity_render, handle_input::handle_input};
@@ -43,7 +43,8 @@ fn main() -> BError {
         .insert(Render {
             colour: ColorPair::new(RED, BLACK),
             glyph: to_cp437('@'),
-        });
+        })
+        .insert(Player);
     let mut schedule = Schedule::default();
 
     // Add a Stage to our schedule. Each Stage in a schedule runs all of its systems

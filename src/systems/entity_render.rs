@@ -10,7 +10,8 @@ pub fn entity_render(query: Query<(&Position, &Render, Changed<Position>)>) {
     query
         .iter()
         .for_each(|(position, render, needs_rendering)| {
-            if needs_rendering {
+            // TODO can optimise this?
+            if needs_rendering || true {
                 println!("{:?} {:?}", position, render);
                 draw_batch.set(
                     Point::new(position.x, position.y),

@@ -26,7 +26,8 @@ impl State {
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
         // ctx.set_active_console(0);
-        // ctx.cls();
+        // TODO can optimise this
+        ctx.cls();
 
         let mut user_command = self.world.get_resource_mut::<UserCommand>().unwrap();
         user_command.handle_keypress(&ctx.key);
