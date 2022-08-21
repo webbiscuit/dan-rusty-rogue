@@ -1,0 +1,88 @@
+First Steps:
+  [x] Screen output
+  [x] Show player
+  [x] Input
+  [x] Movement
+  [ ] Status lines
+  [ ] Messages
+
+The Map:
+  [ ] Map structure
+  [ ] Scrolling
+  [ ] Look command
+  [ ] Wall collisions
+  [ ] Doors
+  [ ] Open/Close
+  [ ] Tiles
+
+Saving/Loading:
+  [ ] Read map from file
+  [ ] Save map
+  [ ] Save other elements
+  [ ] Keybindings file
+
+Life:
+  [ ] Add other creatures
+  [ ] Time
+  [ ] Move randomly
+  [ ] Look at Djistra maps
+
+Interactions:
+  [ ] Stats for creatures
+  [ ] Chase players
+  [ ] Simple combat system
+
+Data files:
+  [ ] Creature data
+  [ ] Map data
+
+Items:
+  [ ] Simple objects
+  [ ] Inventories
+  [ ] Simple stats
+  [ ] Taking/Dropping
+  [ ] Weights
+  [ ] Equip
+  [ ] Unequips
+
+Magic:
+  [ ] Item effects
+  [ ] Special monster attacks
+  [ ] Spells
+  [ ] Curses
+
+Game:
+  [ ] Win state
+  [ ] Lose state
+  [ ] Restart
+  [ ] Quit
+
+Levels:
+  [ ] Level Generator
+  [ ] Moving between levels
+  [ ] Insides/outsides
+  [ ] Monsters scale to depths
+
+Experience:
+  [ ] XP systems
+  [ ] Skills
+  [ ] Character generation screen
+  [ ] Classes
+  [ ] Races
+
+NPCS:
+  [ ] NPCs
+  [ ] Shopkeepers
+  [ ] Quests
+
+Stretches:
+  [ ] Random plot generator
+  [ ] Factions
+  [ ] Wilderness generator
+  [ ] AI
+  [ ] etc
+  [ ] New game +
+
+Religion:
+  [ ] Temples
+  [ ] Powers
