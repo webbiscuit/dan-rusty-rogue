@@ -1,6 +1,12 @@
 # Dan's Roguelike Thing
 
 A roguelike game. Mostly to see how Rust and WASM works.
+WIP!
+
+## Demo
+
+A demo is available here: https://webbiscuit.github.io/dan-rusty-rogue/
+
 
 ## Build for the web
 

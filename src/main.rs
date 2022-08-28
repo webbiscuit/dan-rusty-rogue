@@ -1,20 +1,18 @@
 bracket_terminal::add_wasm_support!();
 use bevy_ecs::prelude::*;
 use bracket_terminal::prelude::*;
-use components::{position::Position, render::Render, player::Player};
-use resources::user_command::{UserCommand};
+use components::{player::Player, position::Position, render::Render};
+use consts::*;
+use resources::user_command::UserCommand;
 use state::State;
 use systems::{entity_render::entity_render, handle_input::handle_input};
 
 mod components;
+mod console_consts;
+mod consts;
 mod resources;
 mod state;
 mod systems;
-
-const DISPLAY_WIDTH: u32 = 80;
-const DISPLAY_HEIGHT: u32 = 50;
-const MAP_WIDTH: u32 = 80;
-const MAP_HEIGHT: u32 = 80;
 
 fn main() -> BError {
     let context = BTermBuilder::new()
@@ -28,7 +26,7 @@ fn main() -> BError {
         // .with_simple_console(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
         // .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
         .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "terminal8x8.png")
-        // .with_simple_console_no_bg(MAP_WIDTH * 2, MAP_HEIGHT * 2, "terminal8x8.png")
+        .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "terminal8x8.png")
         .build()?;
 
     // Create a new empty World to hold our Entities and Components

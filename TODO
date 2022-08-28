@@ -5,6 +5,7 @@ First Steps:
   [x] Movement
   [ ] Status lines
   [ ] Messages
+  [ ] Optimise draw loops
 
 The Map:
   [ ] Map structure

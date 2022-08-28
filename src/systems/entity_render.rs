@@ -1,11 +1,14 @@
 use bevy_ecs::{query::Changed, system::Query};
 use bracket_terminal::prelude::{DrawBatch, Point};
 
-use crate::components::{position::Position, render::Render};
+use crate::{
+    components::{position::Position, render::Render},
+    console_consts,
+};
 
 pub fn entity_render(query: Query<(&Position, &Render, Changed<Position>)>) {
     let mut draw_batch = DrawBatch::new();
-    draw_batch.target(0);
+    draw_batch.target(console_consts::Console::World.into());
 
     query
         .iter()
@@ -21,7 +24,9 @@ pub fn entity_render(query: Query<(&Position, &Render, Changed<Position>)>) {
             }
         });
 
-    draw_batch.submit(5000).expect("Batch error");
+    draw_batch
+        .submit(console_consts::Layer::Entities.into())
+        .expect("Batch error");
 }
 
 // // use bracket_lib::prelude::DrawBatch;
