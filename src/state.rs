@@ -87,13 +87,13 @@ fn draw_ui(ctx: &mut BTerm) {
 
     // TODO some word wrap library here
     ctx.print(
-        VIEW_WIDTH + 1 as u32,
+        VIEW_WIDTH + 1,
         title_box_height + 1,
         "You are in a small room",
     );
-    ctx.print(VIEW_WIDTH + 1 as u32, title_box_height + 3, "...");
+    ctx.print(VIEW_WIDTH + 1, title_box_height + 3, "...");
     ctx.print(
-        VIEW_WIDTH + 1 as u32,
+        VIEW_WIDTH + 1,
         title_box_height + 5,
         "It smells really funky",
     );

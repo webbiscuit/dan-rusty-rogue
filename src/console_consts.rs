@@ -3,9 +3,9 @@ pub enum Console {
     Ui = 1,
 }
 
-impl Into<usize> for Console {
-    fn into(self) -> usize {
-        self as usize
+impl From<Console> for usize {
+    fn from(console: Console) -> Self {
+        console as usize
     }
 }
 
@@ -13,9 +13,9 @@ pub enum Layer {
     Entities = 0,
 }
 
-impl Into<usize> for Layer {
-    fn into(self) -> usize {
-        self as usize
+impl From<Layer> for usize {
+    fn from(layer: Layer) -> Self {
+        layer as usize
     }
 }
 
