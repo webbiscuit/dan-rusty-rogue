@@ -29,3 +29,31 @@ pub fn handle_input(resource: Res<UserCommand>, mut query: Query<&mut Position, 
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bevy_ecs::prelude::*;
+
+    #[test]
+    fn handles_input_correctly() {
+        let mut world = World::new();
+        let mut schedule = Schedule::default();
+
+        let mut user_command = UserCommand::new();
+        user_command.set_command(Command::MoveLeft);
+        world.insert_resource(user_command);
+        let player_id = world
+            .spawn()
+            .insert(Player)
+            .insert(Position { x: 2, y: 2 })
+            .id();
+
+        schedule.add_stage("input", SystemStage::parallel().with_system(handle_input));
+
+        schedule.run(&mut world);
+
+        let position = world.get::<Position>(player_id).unwrap();
+        assert_eq!(position, &Position { x: 1, y: 2 });
+    }
+}

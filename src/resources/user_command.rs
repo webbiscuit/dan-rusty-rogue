@@ -20,6 +20,10 @@ impl UserCommand {
         }
     }
 
+    pub fn set_command(&mut self, command: Command) {
+        self.current_command = Some(command);
+    }
+
     pub fn handle_keypress(&mut self, key: Option<VirtualKeyCode>) {
         if let Some(key) = key {
             match key {
