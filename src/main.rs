@@ -3,6 +3,7 @@ use bevy_ecs::prelude::*;
 use bracket_terminal::prelude::*;
 use components::{player::Player, position::Position, render::Render};
 use consts::*;
+use env_logger::Env;
 use resources::user_command::UserCommand;
 use state::State;
 use systems::{entity_render::entity_render, handle_input::handle_input};
@@ -15,6 +16,11 @@ mod state;
 mod systems;
 
 fn main() -> BError {
+    // `init` does call `set_logger`, so this is all we need to do.
+    // We are falling back to printing all logs at info-level or above
+    // if the RUST_LOG environment variable has not been set.
+    env_logger::Builder::from_env(Env::default().default_filter_or("dan_rusty_rogue=info")).init();
+
     let context = BTermBuilder::new()
         .with_title("Dan Rogue World")
         .with_fps_cap(30.0)
