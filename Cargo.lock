@@ -196,8 +196,7 @@ checksum = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
 [[package]]
 name = "bracket-color"
 version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7333827cf727ceb302cc4f638cc8befc87f5f1423873255d94cc0a24009e940a"
+source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
 dependencies = [
  "lazy_static",
  "parking_lot 0.12.1",
@@ -206,8 +205,7 @@ dependencies = [
 [[package]]
 name = "bracket-embedding"
 version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c1cb6747f25903066109a619e3d580ef5ff7b3ffc281fa51ece473e1396e2298"
+source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
 dependencies = [
  "lazy_static",
  "parking_lot 0.12.1",
@@ -216,8 +214,7 @@ dependencies = [
 [[package]]
 name = "bracket-geometry"
 version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0f31b525fcd65027885f3a1e3a250a5dd397d70de4a6a5a125f03e0bef951499"
+source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
 dependencies = [
  "ultraviolet",
 ]
@@ -225,8 +222,7 @@ dependencies = [
 [[package]]
 name = "bracket-rex"
 version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c4735d15070b98d0f07360d62914d1524679325019cae46c7af73637a6ef196a"
+source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
 dependencies = [
  "bracket-color",
  "bracket-embedding",
@@ -237,8 +233,7 @@ dependencies = [
 [[package]]
 name = "bracket-terminal"
 version = "0.8.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2493063cb676e2e9e3a3a630eee032a297e43c8a1cee08c94feaad3344ed0b46"
+source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
 dependencies = [
  "anyhow",
  "bracket-color",
@@ -1954,9 +1949,9 @@ dependencies = [
 
 [[package]]
 name = "wide"
-version = "0.7.4"
+version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b3aba2d1dac31ac7cae82847ac5b8be822aee8f99a4e100f279605016b185c5f"
+checksum = "ae41ecad2489a1655c8ef8489444b0b113c0a0c795944a3572a0931cf7d2525c"
 dependencies = [
  "bytemuck",
  "safe_arch 0.6.0",
