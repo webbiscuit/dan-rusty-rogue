@@ -1,5 +1,5 @@
-// const MAP_WIDTH: u32 = 80;
-// const MAP_HEIGHT: u32 = 80;
+pub const MAP_WIDTH: u32 = 40;
+pub const MAP_HEIGHT: u32 = 40;
 
 pub const DISPLAY_WIDTH: u32 = 80;
 pub const DISPLAY_HEIGHT: u32 = 50;

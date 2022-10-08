@@ -4,6 +4,7 @@ use bracket_terminal::prelude::*;
 use components::{player::Player, position::Position, render::Render};
 use consts::*;
 use env_logger::Env;
+use maps::map_builder::MapBuilder;
 use resources::user_command::UserCommand;
 use state::State;
 use systems::{entity_render::entity_render, handle_player_commands::handle_player_commands};
@@ -11,6 +12,7 @@ use systems::{entity_render::entity_render, handle_player_commands::handle_playe
 mod components;
 mod console_consts;
 mod consts;
+mod maps;
 mod resources;
 mod state;
 mod systems;
@@ -37,8 +39,10 @@ fn main() -> BError {
 
     // Create a new empty World to hold our Entities and Components
     let mut world = World::new();
+    let map_builder = MapBuilder::new();
 
     world.insert_resource(UserCommand::new());
+    world.insert_resource(map_builder.map().clone());
 
     // Spawn an entity with Position and Velocity components
     world
