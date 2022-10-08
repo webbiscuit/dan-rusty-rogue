@@ -40,7 +40,9 @@ impl GameState for State {
 
         if let Some(command) = user_command.current_command() {
             if *command == Command::Quit {
+                log::info!("Quitting game");
                 ctx.quit();
+                return;
             }
         }
 

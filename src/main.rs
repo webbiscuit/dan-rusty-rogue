@@ -6,7 +6,7 @@ use consts::*;
 use env_logger::Env;
 use resources::user_command::UserCommand;
 use state::State;
-use systems::{entity_render::entity_render, handle_input::handle_input};
+use systems::{entity_render::entity_render, handle_player_commands::handle_player_commands};
 
 mod components;
 mod console_consts;
@@ -53,7 +53,10 @@ fn main() -> BError {
 
     // Add a Stage to our schedule. Each Stage in a schedule runs all of its systems
     // before moving on to the next Stage
-    schedule.add_stage("input", SystemStage::parallel().with_system(handle_input));
+    schedule.add_stage(
+        "input",
+        SystemStage::parallel().with_system(handle_player_commands),
+    );
     schedule.add_stage("render", SystemStage::parallel().with_system(entity_render));
 
     let gs: State = State::new(world, schedule);

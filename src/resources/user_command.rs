@@ -1,12 +1,17 @@
 use bracket_terminal::prelude::VirtualKeyCode;
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
-pub enum Command {
+pub enum Direction {
     MoveUp,
     MoveDown,
     MoveLeft,
     MoveRight,
+}
+
+#[derive(Debug, PartialEq, Copy, Clone)]
+pub enum Command {
     Quit,
+    TryMove(Direction),
 }
 
 pub struct UserCommand {
@@ -26,18 +31,19 @@ impl UserCommand {
 
     pub fn handle_keypress(&mut self, key: Option<VirtualKeyCode>) {
         if let Some(key) = key {
+            log::info!("key: {:?}", key);
             match key {
                 VirtualKeyCode::Up | VirtualKeyCode::W => {
-                    self.current_command = Some(Command::MoveUp);
+                    self.current_command = Some(Command::TryMove(Direction::MoveUp));
                 }
                 VirtualKeyCode::Down | VirtualKeyCode::S => {
-                    self.current_command = Some(Command::MoveDown);
+                    self.current_command = Some(Command::TryMove(Direction::MoveDown));
                 }
                 VirtualKeyCode::Left | VirtualKeyCode::A => {
-                    self.current_command = Some(Command::MoveLeft);
+                    self.current_command = Some(Command::TryMove(Direction::MoveLeft));
                 }
                 VirtualKeyCode::Right | VirtualKeyCode::D => {
-                    self.current_command = Some(Command::MoveRight);
+                    self.current_command = Some(Command::TryMove(Direction::MoveRight));
                 }
                 VirtualKeyCode::Escape => {
                     self.current_command = Some(Command::Quit);
