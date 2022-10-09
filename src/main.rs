@@ -1,7 +1,8 @@
 bracket_terminal::add_wasm_support!();
 use bevy_ecs::prelude::*;
+use bracket_random::prelude::RandomNumberGenerator;
 use bracket_terminal::prelude::*;
-use components::{player::Player, position::Position, render::Render};
+use components::{player::Player, point::Point, render::Render};
 use consts::*;
 use env_logger::Env;
 use maps::map_builder::MapBuilder;
@@ -13,6 +14,7 @@ mod components;
 mod console_consts;
 mod consts;
 mod maps;
+mod maths;
 mod resources;
 mod state;
 mod systems;
@@ -39,7 +41,8 @@ fn main() -> BError {
 
     // Create a new empty World to hold our Entities and Components
     let mut world = World::new();
-    let map_builder = MapBuilder::new();
+    let mut rng = RandomNumberGenerator::new();
+    let map_builder = MapBuilder::new(&mut rng, MAP_WIDTH as u8, MAP_HEIGHT as u8, 6);
 
     world.insert_resource(UserCommand::new());
     world.insert_resource(map_builder.map().clone());
@@ -47,7 +50,7 @@ fn main() -> BError {
     // Spawn an entity with Position and Velocity components
     world
         .spawn()
-        .insert(Position { x: 2, y: 2 })
+        .insert(map_builder.player_start().clone())
         .insert(Render {
             colour: ColorPair::new(RED, BLACK),
             glyph: to_cp437('@'),

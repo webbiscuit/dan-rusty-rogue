@@ -2,19 +2,20 @@ use bevy_ecs::{
     query::With,
     system::{Query, Res},
 };
-use bracket_terminal::prelude::Point;
 
 use crate::{
-    components::{player::Player, position::Position},
+    components::{player::Player, point::Point},
+    maps::map::Map,
     resources::user_command::{Command, Direction, UserCommand},
 };
 
 pub fn handle_player_commands(
-    resource: Res<UserCommand>,
-    mut query: Query<&mut Position, With<Player>>,
+    command: Res<UserCommand>,
+    map: Res<Map>,
+    mut query: Query<&mut Point, With<Player>>,
 ) {
-    if resource.current_command().is_some() {
-        let delta = match resource.current_command().unwrap() {
+    if command.current_command().is_some() {
+        let delta = match command.current_command().unwrap() {
             Command::TryMove(direction) => match direction {
                 Direction::MoveUp => Point::new(0, -1),
                 Direction::MoveDown => Point::new(0, 1),
@@ -25,12 +26,14 @@ pub fn handle_player_commands(
         };
 
         for mut position in &mut query {
-            log::info!("start pos: {:?}", position.clone());
+            log::info!("start pos: {:?}", position.to_owned());
 
-            position.x += delta.x;
-            position.y += delta.y;
+            let new_position = position.to_owned() + delta;
+            if map.can_enter_tile(new_position.x, new_position.y) {
+                *position = new_position;
+            }
 
-            log::info!("end pos: {:?}", position.clone());
+            log::info!("end pos: {:?}", position.to_owned());
         }
     }
 }
@@ -51,7 +54,7 @@ mod tests {
         let player_id = world
             .spawn()
             .insert(Player)
-            .insert(Position { x: 2, y: 2 })
+            .insert(Point { x: 2, y: 2 })
             .id();
 
         schedule.add_stage(
@@ -61,7 +64,7 @@ mod tests {
 
         schedule.run(&mut world);
 
-        let position = world.get::<Position>(player_id).unwrap();
-        assert_eq!(position, &Position { x: 1, y: 2 });
+        let position = world.get::<Point>(player_id).unwrap();
+        assert_eq!(position, &Point { x: 1, y: 2 });
     }
 }

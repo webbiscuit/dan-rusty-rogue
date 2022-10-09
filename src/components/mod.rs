@@ -1,3 +1,3 @@
 pub mod player;
-pub mod position;
+pub mod point;
 pub mod render;

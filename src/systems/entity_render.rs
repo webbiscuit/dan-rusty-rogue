@@ -2,17 +2,22 @@ use bevy_ecs::{
     query::Changed,
     system::{Query, Res},
 };
-use bracket_terminal::prelude::{to_cp437, ColorPair, DrawBatch, Point, BLACK, GREY};
+use bracket_terminal::prelude::{
+    to_cp437, ColorPair, DrawBatch, Point as BracketPoint, BLACK, GREY,
+};
 
 use crate::{
-    components::{position::Position, render::Render},
+    components::{point::Point, render::Render},
     console_consts,
+    consts::{MAP_VIEW_OFFSET_X, MAP_VIEW_OFFSET_Y},
     maps::map::{Map, Tile},
 };
 
-pub fn entity_render(map: Res<Map>, query: Query<(&Position, &Render, Changed<Position>)>) {
+pub fn entity_render(map: Res<Map>, query: Query<(&Point, &Render, Changed<Point>)>) {
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(console_consts::Console::World.into());
+
+    let offset = BracketPoint::new(MAP_VIEW_OFFSET_X, MAP_VIEW_OFFSET_Y);
 
     for x in 0..map.width() {
         for y in 0..map.height() {
@@ -21,7 +26,11 @@ pub fn entity_render(map: Res<Map>, query: Query<(&Position, &Render, Changed<Po
                 Tile::Floor => to_cp437(' '),
                 Tile::Wall => to_cp437('#'),
             };
-            draw_batch.set(Point::new(x, y), ColorPair::new(GREY, BLACK), glyph);
+            draw_batch.set(
+                BracketPoint::new(x, y) + offset,
+                ColorPair::new(GREY, BLACK),
+                glyph,
+            );
         }
     }
 
@@ -32,7 +41,7 @@ pub fn entity_render(map: Res<Map>, query: Query<(&Position, &Render, Changed<Po
             // if needs_rendering || true {
             // println!("{:?} {:?}", position, render);
             draw_batch.set(
-                Point::new(position.x, position.y),
+                BracketPoint::new(position.x, position.y) + offset,
                 render.colour,
                 render.glyph,
             );
