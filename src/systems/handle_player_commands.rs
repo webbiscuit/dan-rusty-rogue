@@ -50,7 +50,9 @@ mod tests {
 
         let mut user_command = UserCommand::new();
         user_command.set_command(Command::TryMove(Direction::Left));
+        let map = Map::new(10, 10);
         world.insert_resource(user_command);
+        world.insert_resource(map);
         let player_id = world
             .spawn()
             .insert(Player)
@@ -66,5 +68,32 @@ mod tests {
 
         let position = world.get::<Point>(player_id).unwrap();
         assert_eq!(position, &Point { x: 1, y: 2 });
+    }
+
+    #[test]
+    fn handles_map_bounds() {
+        let mut world = World::new();
+        let mut schedule = Schedule::default();
+
+        let mut user_command = UserCommand::new();
+        user_command.set_command(Command::TryMove(Direction::Left));
+        let map = Map::new(10, 10);
+        world.insert_resource(user_command);
+        world.insert_resource(map);
+        let player_id = world
+            .spawn()
+            .insert(Player)
+            .insert(Point { x: 0, y: 0 })
+            .id();
+
+        schedule.add_stage(
+            "input",
+            SystemStage::parallel().with_system(handle_player_commands),
+        );
+
+        schedule.run(&mut world);
+
+        let position = world.get::<Point>(player_id).unwrap();
+        assert_eq!(position, &Point { x: 0, y: 0 });
     }
 }
