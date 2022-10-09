@@ -2,10 +2,10 @@ use bracket_terminal::prelude::VirtualKeyCode;
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum Direction {
-    MoveUp,
-    MoveDown,
-    MoveLeft,
-    MoveRight,
+    Up,
+    Down,
+    Left,
+    Right,
 }
 
 #[derive(Debug, PartialEq, Copy, Clone)]
@@ -34,16 +34,16 @@ impl UserCommand {
             log::info!("key: {:?}", key);
             match key {
                 VirtualKeyCode::Up | VirtualKeyCode::W => {
-                    self.current_command = Some(Command::TryMove(Direction::MoveUp));
+                    self.current_command = Some(Command::TryMove(Direction::Up));
                 }
                 VirtualKeyCode::Down | VirtualKeyCode::S => {
-                    self.current_command = Some(Command::TryMove(Direction::MoveDown));
+                    self.current_command = Some(Command::TryMove(Direction::Down));
                 }
                 VirtualKeyCode::Left | VirtualKeyCode::A => {
-                    self.current_command = Some(Command::TryMove(Direction::MoveLeft));
+                    self.current_command = Some(Command::TryMove(Direction::Left));
                 }
                 VirtualKeyCode::Right | VirtualKeyCode::D => {
-                    self.current_command = Some(Command::TryMove(Direction::MoveRight));
+                    self.current_command = Some(Command::TryMove(Direction::Right));
                 }
                 VirtualKeyCode::Escape => {
                     self.current_command = Some(Command::Quit);

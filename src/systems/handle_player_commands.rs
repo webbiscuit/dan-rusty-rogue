@@ -17,23 +17,23 @@ pub fn handle_player_commands(
     if command.current_command().is_some() {
         let delta = match command.current_command().unwrap() {
             Command::TryMove(direction) => match direction {
-                Direction::MoveUp => Point::new(0, -1),
-                Direction::MoveDown => Point::new(0, 1),
-                Direction::MoveLeft => Point::new(-1, 0),
-                Direction::MoveRight => Point::new(1, 0),
+                Direction::Up => Point::new(0, -1),
+                Direction::Down => Point::new(0, 1),
+                Direction::Left => Point::new(-1, 0),
+                Direction::Right => Point::new(1, 0),
             },
             _ => Point { x: 0, y: 0 },
         };
 
         for mut position in &mut query {
-            log::info!("start pos: {:?}", position.to_owned());
+            log::info!("start pos: {:?}", position);
 
             let new_position = position.to_owned() + delta;
             if map.can_enter_tile(new_position.x, new_position.y) {
                 *position = new_position;
             }
 
-            log::info!("end pos: {:?}", position.to_owned());
+            log::info!("end pos: {:?}", position);
         }
     }
 }
@@ -49,7 +49,7 @@ mod tests {
         let mut schedule = Schedule::default();
 
         let mut user_command = UserCommand::new();
-        user_command.set_command(Command::TryMove(Direction::MoveLeft));
+        user_command.set_command(Command::TryMove(Direction::Left));
         world.insert_resource(user_command);
         let player_id = world
             .spawn()

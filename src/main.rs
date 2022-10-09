@@ -2,7 +2,7 @@ bracket_terminal::add_wasm_support!();
 use bevy_ecs::prelude::*;
 use bracket_random::prelude::RandomNumberGenerator;
 use bracket_terminal::prelude::*;
-use components::{player::Player, point::Point, render::Render};
+use components::{player::Player, render::Render};
 use consts::*;
 use env_logger::Env;
 use maps::map_builder::MapBuilder;
@@ -50,7 +50,7 @@ fn main() -> BError {
     // Spawn an entity with Position and Velocity components
     world
         .spawn()
-        .insert(map_builder.player_start().clone())
+        .insert(*map_builder.player_start())
         .insert(Render {
             colour: ColorPair::new(RED, BLACK),
             glyph: to_cp437('@'),
