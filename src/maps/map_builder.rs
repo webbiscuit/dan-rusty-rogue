@@ -14,12 +14,12 @@ pub struct MapBuilder {
 impl MapBuilder {
     pub fn new(
         rng: &mut RandomNumberGenerator,
-        map_width: u8,
-        map_height: u8,
+        map_width: u32,
+        map_height: u32,
         room_count: u8,
     ) -> MapBuilder {
         let mut mb = MapBuilder {
-            map: Map::new(),
+            map: Map::new(map_width, map_height),
             player_start: Point::zero(),
             rooms: Vec::new(),
         };
@@ -46,8 +46,8 @@ impl MapBuilder {
     fn build_random_rooms(
         &mut self,
         rng: &mut RandomNumberGenerator,
-        map_width: u8,
-        map_height: u8,
+        map_width: u32,
+        map_height: u32,
         room_count: u8,
     ) {
         let max_room_size = 10;
@@ -55,10 +55,10 @@ impl MapBuilder {
 
         'rooms: while self.rooms.len() < room_count.into() {
             let room = Rect::with_size(
-                rng.range(1, (map_width - max_room_size - 1).into()),
-                rng.range(1, (map_height - max_room_size - 1).into()),
-                rng.range(min_room_size, max_room_size.into()),
-                rng.range(min_room_size, max_room_size.into()),
+                rng.range(1, (map_width - max_room_size - 1) as i32),
+                rng.range(1, (map_height - max_room_size - 1) as i32),
+                rng.range(min_room_size, max_room_size as i32),
+                rng.range(min_room_size, max_room_size as i32),
             );
 
             for r in &self.rooms {

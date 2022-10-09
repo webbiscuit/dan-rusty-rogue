@@ -42,7 +42,7 @@ fn main() -> BError {
     // Create a new empty World to hold our Entities and Components
     let mut world = World::new();
     let mut rng = RandomNumberGenerator::new();
-    let map_builder = MapBuilder::new(&mut rng, MAP_WIDTH as u8, MAP_HEIGHT as u8, 6);
+    let map_builder = MapBuilder::new(&mut rng, MAP_WIDTH, MAP_HEIGHT, 6);
 
     world.insert_resource(UserCommand::new());
     world.insert_resource(map_builder.map().clone());
