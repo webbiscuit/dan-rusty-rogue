@@ -2,7 +2,7 @@ use std::ops::Add;
 
 use bevy_ecs::prelude::*;
 
-#[derive(Component, Debug, Copy, Clone, PartialEq)]
+#[derive(Component, Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Point {
     pub x: i32,
     pub y: i32,

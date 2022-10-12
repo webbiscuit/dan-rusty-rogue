@@ -8,7 +8,7 @@ pub enum Direction {
     Right,
 }
 
-#[derive(Debug, PartialEq, Copy, Clone)]
+#[derive(Debug, Eq, PartialEq, Copy, Clone)]
 pub enum Command {
     Quit,
     TryMove(Direction),
