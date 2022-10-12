@@ -29,11 +29,11 @@ impl Map {
     }
 
     pub fn tile_at(&self, x: i32, y: i32) -> Tile {
-        self.tiles[to_index(x, y, self.width as i32)]
+        self.tiles[to_index(x, y, self.width)]
     }
 
     pub fn set_tile_at(&mut self, x: i32, y: i32, tile: Tile) {
-        self.tiles[to_index(x, y, self.width as i32)] = tile;
+        self.tiles[to_index(x, y, self.width)] = tile;
     }
 
     pub fn in_bounds(&self, x: i32, y: i32) -> bool {
@@ -49,6 +49,6 @@ impl Map {
     }
 }
 
-pub fn to_index(x: i32, y: i32, width: i32) -> usize {
-    (x + y * width) as usize
+pub fn to_index(x: i32, y: i32, width: u32) -> usize {
+    (x as u32 + y as u32 * width) as usize
 }

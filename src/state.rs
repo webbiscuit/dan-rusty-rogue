@@ -6,7 +6,7 @@ use bracket_terminal::prelude::*;
 
 use crate::{
     console_consts,
-    consts::*,
+    consts::{DISPLAY_HEIGHT, DISPLAY_WIDTH, VIEW_HEIGHT, VIEW_WIDTH},
     resources::user_command::{Command, UserCommand},
 };
 

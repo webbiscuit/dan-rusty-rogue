@@ -3,7 +3,7 @@ use bevy_ecs::prelude::*;
 use bracket_random::prelude::RandomNumberGenerator;
 use bracket_terminal::prelude::*;
 use components::{player::Player, render::Render};
-use consts::*;
+use consts::{DISPLAY_HEIGHT, DISPLAY_WIDTH, MAP_HEIGHT, MAP_WIDTH};
 use env_logger::Env;
 use maps::map_builder::MapBuilder;
 use resources::user_command::UserCommand;
