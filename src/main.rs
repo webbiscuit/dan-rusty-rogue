@@ -37,6 +37,7 @@ fn main() -> BError {
         // .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "dungeonfont.png")
         .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "terminal8x8.png")
         .with_simple_console_no_bg(DISPLAY_WIDTH, DISPLAY_HEIGHT, "terminal8x8.png")
+        .with_sparse_console(DISPLAY_WIDTH, DISPLAY_HEIGHT, "terminal8x8.png")
         .build()?;
 
     // Create a new empty World to hold our Entities and Components

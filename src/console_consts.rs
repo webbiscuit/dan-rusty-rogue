@@ -1,6 +1,7 @@
 pub enum Console {
     World = 0,
     Ui = 1,
+    Overlays = 2,
 }
 
 impl From<Console> for usize {

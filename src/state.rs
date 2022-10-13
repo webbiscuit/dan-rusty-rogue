@@ -47,12 +47,30 @@ impl GameState for State {
         }
 
         draw_ui(ctx);
+        draw_overlays(ctx);
 
         // Run the schedule once. If your app has a "loop", you would run this once per loop
         self.schedule.run(&mut self.world);
 
         render_draw_buffer(ctx).expect("Render error");
     }
+}
+
+fn draw_overlays(ctx: &mut BTerm) {
+    let mut draw_batch = DrawBatch::new();
+    draw_batch.target(console_consts::Console::Overlays.into());
+    draw_batch.cls();
+    draw_batch.draw_double_box(
+        Rect::with_size(39, 0, 20, 3),
+        ColorPair::new(RGB::named(WHITE), RGB::named(BLACK)),
+    );
+    draw_batch.print_color(
+        Point::new(40, 1),
+        &format!("Blah: {}", ctx.fps),
+        ColorPair::new(RGB::named(YELLOW), RGB::named(BLACK)),
+    );
+
+    draw_batch.submit(0).expect("Batch error");
 }
 
 fn draw_ui(ctx: &mut BTerm) {
