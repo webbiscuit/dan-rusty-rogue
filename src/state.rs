@@ -74,59 +74,60 @@ fn draw_overlays(ctx: &mut BTerm) {
 }
 
 fn draw_ui(ctx: &mut BTerm) {
-    ctx.draw_box(0, 0, VIEW_WIDTH, VIEW_HEIGHT, WHITE, BLACK);
-
     let title_box_height: i32 = 20;
     let title_box_width: i32 = (DISPLAY_WIDTH - VIEW_WIDTH - 1) as i32;
-
-    ctx.draw_box(
-        VIEW_WIDTH,
-        0,
-        title_box_width,
-        title_box_height,
-        WHITE,
-        BLACK,
-    );
-    ctx.print_centered_at(
-        VIEW_WIDTH + (title_box_width / 2) as u32,
-        title_box_height / 2,
-        "Dan World",
-    );
-
     let description_box_height: i32 = (DISPLAY_HEIGHT as i32) - title_box_height - 1;
     let description_box_width: i32 = (DISPLAY_WIDTH - VIEW_WIDTH - 1) as i32;
 
-    ctx.draw_box(
-        VIEW_WIDTH,
-        title_box_height,
-        description_box_width,
-        description_box_height,
-        WHITE,
-        BLACK,
+    let mut draw_batch = DrawBatch::new();
+    draw_batch.target(console_consts::Console::Ui.into());
+    draw_batch.cls();
+
+    draw_batch.draw_box(
+        Rect::with_size(0, 0, VIEW_WIDTH, VIEW_HEIGHT),
+        ColorPair::new(RGB::named(WHITE), RGB::named(BLACK)),
     );
 
-    // TODO some word wrap library here
-    ctx.print(
-        VIEW_WIDTH + 1,
+    draw_batch.draw_box(
+        Rect::with_size(VIEW_WIDTH as i32, 0, title_box_width, title_box_height),
+        ColorPair::new(RGB::named(WHITE), RGB::named(BLACK)),
+    );
+
+    draw_batch.print_color_centered_at(
+        Point::new(
+            VIEW_WIDTH as i32 + (title_box_width / 2) as i32,
+            title_box_height / 2,
+        ),
+        "Dan World",
+        ColorPair::new(RGB::named(CYAN), RGB::named(BLACK)),
+    );
+
+    draw_batch.draw_box(
+        Rect::with_size(
+            VIEW_WIDTH as i32,
+            title_box_height,
+            description_box_width,
+            description_box_height,
+        ),
+        ColorPair::new(RGB::named(WHITE), RGB::named(BLACK)),
+    );
+
+    let mut buf = TextBuilder::empty();
+    buf.ln()
+        .line_wrap(
+            "You are obviously a wizard. You have been summoned to the Land of Dan to help people and be generally awesome.",
+        )
+        .reset();
+
+    let mut block = TextBlock::new(
+        (VIEW_WIDTH + 1 + 1) as i32,
         title_box_height + 1,
-        "You are in a small room",
-    );
-    ctx.print(VIEW_WIDTH + 1, title_box_height + 3, "...");
-    ctx.print(
-        VIEW_WIDTH + 1,
-        title_box_height + 5,
-        "It smells really funky",
+        description_box_width - 1,
+        description_box_height - 1,
     );
 
-    // ctx.print(
-    //     VIEW_WIDTH + 1 as u32,
-    //     title_box_height + 1,
-    //     buf, //"Welcome to Dan World!\nThings\noh now",
-    // );
-
-    // ctx.print_centered_at(
-    //     VIEW_WIDTH + (description_box_width / 2) as u32,
-    //     title_box_height + (description_box_height / 2),
-    //     "Som text",
-    // );
+    block.print(&buf).expect("Text too long");
+    block.render_to_draw_batch(&mut draw_batch);
+    draw_batch.submit(0).expect("Batch error");
+    render_draw_buffer(ctx).expect("Render error");
 }
