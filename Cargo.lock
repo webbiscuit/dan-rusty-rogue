@@ -216,7 +216,7 @@ checksum = "0d8c1fef690941d3e7788d328517591fecc684c084084702d6ff1641e993699a"
 [[package]]
 name = "bracket-color"
 version = "0.8.7"
-source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
+source = "git+https://github.com/amethyst/bracket-lib.git#0d2d5e6a9a8e7c7ae3710cfef85be4cab0109a27"
 dependencies = [
  "lazy_static",
  "parking_lot 0.12.1",
@@ -225,7 +225,7 @@ dependencies = [
 [[package]]
 name = "bracket-embedding"
 version = "0.8.7"
-source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
+source = "git+https://github.com/amethyst/bracket-lib.git#0d2d5e6a9a8e7c7ae3710cfef85be4cab0109a27"
 dependencies = [
  "lazy_static",
  "parking_lot 0.12.1",
@@ -234,7 +234,7 @@ dependencies = [
 [[package]]
 name = "bracket-geometry"
 version = "0.8.7"
-source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
+source = "git+https://github.com/amethyst/bracket-lib.git#0d2d5e6a9a8e7c7ae3710cfef85be4cab0109a27"
 dependencies = [
  "ultraviolet",
 ]
@@ -257,7 +257,7 @@ dependencies = [
 [[package]]
 name = "bracket-rex"
 version = "0.8.7"
-source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
+source = "git+https://github.com/amethyst/bracket-lib.git#0d2d5e6a9a8e7c7ae3710cfef85be4cab0109a27"
 dependencies = [
  "bracket-color",
  "bracket-embedding",
@@ -268,7 +268,7 @@ dependencies = [
 [[package]]
 name = "bracket-terminal"
 version = "0.8.7"
-source = "git+https://github.com/amethyst/bracket-lib.git#851f6f08675444fb6fa088b9e67bee9fd75554c6"
+source = "git+https://github.com/amethyst/bracket-lib.git#0d2d5e6a9a8e7c7ae3710cfef85be4cab0109a27"
 dependencies = [
  "anyhow",
  "bracket-color",
