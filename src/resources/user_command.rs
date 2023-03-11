@@ -1,3 +1,4 @@
+use bevy_ecs::system::Resource;
 use bracket_terminal::prelude::VirtualKeyCode;
 
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
@@ -14,6 +15,7 @@ pub enum Command {
     TryMove(Direction),
 }
 
+#[derive(Resource)]
 pub struct UserCommand {
     current_command: Option<Command>,
 }

@@ -64,23 +64,20 @@ fn main() -> BError {
     world.insert_resource(map_builder.map().clone());
 
     // Spawn an entity with Position and Velocity components
-    world
-        .spawn()
-        .insert(*map_builder.player_start())
-        .insert(Render {
+    world.spawn((
+        *map_builder.player_start(),
+        Render {
             colour: ColorPair::new(RED, BLACK),
             glyph: to_cp437('@'),
-        })
-        .insert(Player);
+        },
+        Player,
+    ));
     let mut schedule = Schedule::default();
 
     // Add a Stage to our schedule. Each Stage in a schedule runs all of its systems
     // before moving on to the next Stage
-    schedule.add_stage(
-        "input",
-        SystemStage::parallel().with_system(handle_player_commands),
-    );
-    schedule.add_stage("render", SystemStage::parallel().with_system(entity_render));
+    schedule.add_system(handle_player_commands);
+    schedule.add_system(entity_render);
 
     let gs: State = State::new(world, schedule);
     main_loop(context, gs)

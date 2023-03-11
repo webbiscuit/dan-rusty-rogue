@@ -53,16 +53,9 @@ mod tests {
         let map = Map::new(10, 10);
         world.insert_resource(user_command);
         world.insert_resource(map);
-        let player_id = world
-            .spawn()
-            .insert(Player)
-            .insert(Point { x: 2, y: 2 })
-            .id();
+        let player_id = world.spawn((Player, Point { x: 2, y: 2 })).id();
 
-        schedule.add_stage(
-            "input",
-            SystemStage::parallel().with_system(handle_player_commands),
-        );
+        schedule.add_system(handle_player_commands);
 
         schedule.run(&mut world);
 
@@ -80,16 +73,9 @@ mod tests {
         let map = Map::new(10, 10);
         world.insert_resource(user_command);
         world.insert_resource(map);
-        let player_id = world
-            .spawn()
-            .insert(Player)
-            .insert(Point { x: 0, y: 0 })
-            .id();
+        let player_id = world.spawn((Player, Point { x: 0, y: 0 })).id();
 
-        schedule.add_stage(
-            "input",
-            SystemStage::parallel().with_system(handle_player_commands),
-        );
+        schedule.add_system(handle_player_commands);
 
         schedule.run(&mut world);
 

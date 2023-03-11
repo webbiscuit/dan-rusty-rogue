@@ -1,10 +1,12 @@
+use bevy_ecs::system::Resource;
+
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub enum Tile {
     Wall,
     Floor,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Resource)]
 pub struct Map {
     tiles: Vec<Tile>,
     width: u32,
