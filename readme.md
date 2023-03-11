@@ -13,8 +13,9 @@ A demo is available here: https://webbiscuit.github.io/dan-rusty-rogue/
 ```bash
 cargo build --release --target wasm32-unknown-unknown
 wasm-bindgen target/wasm32-unknown-unknown/release/dan-rusty-rogue.wasm --out-dir wasm --no-modules --no-typescript
-
+```
 or use trunk
 
-trunk build --release
+```bash
+trunk build --release --public-url dan-rusty-rogue
 ```
