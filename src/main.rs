@@ -5,7 +5,6 @@ use bracket_random::prelude::RandomNumberGenerator;
 use bracket_terminal::prelude::*;
 use components::{player::Player, render::Render};
 use consts::{DISPLAY_HEIGHT, DISPLAY_WIDTH, MAP_HEIGHT, MAP_WIDTH};
-use env_logger::Env;
 use maps::map_builder::MapBuilder;
 use resources::user_command::UserCommand;
 use state::State;
@@ -20,11 +19,24 @@ mod resources;
 mod state;
 mod systems;
 
+#[cfg(target_arch = "wasm32")]
+fn add_logging() {
+    wasm_logger::init(wasm_logger::Config::default());
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+use env_logger::Env;
+
+#[cfg(not(target_arch = "wasm32"))]
+fn add_logging() {
+    env_logger::Builder::from_env(Env::default().default_filter_or("dan_rusty_rogue=info")).init();
+}
+
 fn main() -> BError {
     // `init` does call `set_logger`, so this is all we need to do.
     // We are falling back to printing all logs at info-level or above
     // if the RUST_LOG environment variable has not been set.
-    env_logger::Builder::from_env(Env::default().default_filter_or("dan_rusty_rogue=info")).init();
+    add_logging();
 
     log::info!("Starting game");
 

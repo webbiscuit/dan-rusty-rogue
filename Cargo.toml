@@ -12,8 +12,12 @@ bracket-terminal = { git = "https://github.com/amethyst/bracket-lib.git" }
 bracket-random = "0.8.7"
 wasm-bindgen = "0.2.84"
 log = "0.4.17"
-env_logger = "0.10.0"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-logger = "0.2.0"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+env_logger = "0.10.0"
 
 [profile.release]
 lto = "thin"
