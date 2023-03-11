@@ -10,9 +10,10 @@ bevy_ecs = "0.8.1"
 # bracket-terminal = "=0.8.5"
 bracket-terminal = { git = "https://github.com/amethyst/bracket-lib.git" }
 bracket-random = "0.8.7"
-wasm-bindgen = "0.2.83"
+wasm-bindgen = "0.2.84"
 log = "0.4.17"
-env_logger = "0.9.1"
+env_logger = "0.10.0"
+wasm-logger = "0.2.0"
 
 [profile.release]
 lto = "thin"

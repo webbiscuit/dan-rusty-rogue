@@ -1,4 +1,5 @@
 bracket_terminal::add_wasm_support!();
+
 use bevy_ecs::prelude::*;
 use bracket_random::prelude::RandomNumberGenerator;
 use bracket_terminal::prelude::*;
@@ -24,6 +25,8 @@ fn main() -> BError {
     // We are falling back to printing all logs at info-level or above
     // if the RUST_LOG environment variable has not been set.
     env_logger::Builder::from_env(Env::default().default_filter_or("dan_rusty_rogue=info")).init();
+
+    log::info!("Starting game");
 
     let context = BTermBuilder::new()
         .with_title("Dan Rogue World")
