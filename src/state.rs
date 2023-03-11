@@ -92,7 +92,7 @@ fn draw_ui(ctx: &mut BTerm) {
 
     draw_batch.print_color_centered_at(
         Point::new(
-            VIEW_WIDTH as i32 + (title_box_width / 2) as i32,
+            VIEW_WIDTH as i32 + (title_box_width / 2),
             title_box_height / 2,
         ),
         "Dan World",

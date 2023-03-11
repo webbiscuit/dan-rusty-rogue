@@ -27,6 +27,7 @@ impl UserCommand {
         }
     }
 
+    #[cfg(test)]
     pub fn set_command(&mut self, command: Command) {
         self.current_command = Some(command);
     }
